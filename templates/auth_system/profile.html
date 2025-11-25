@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Your Profile</title>
+</head>
+<body>
+
+<h2>Profile</h2>
+
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Date of birth:</strong> {{ user.date_of_birth }}</p>
+<p><strong>Phone:</strong> {{ user.phone }}</p>
+<p><strong>Role:</strong> {{ user.role }}</p>
+<p><strong>Bio:</strong> {{ user.bio }}</p>
+
+{% if user.avatar %}
+    <p><img src="{{ user.avatar.url }}" width="150"></p>
+{% endif %}
+
+<a href="{% url 'profile_edit' %}">Edit profile</a>
+<br>
+<a href="{% url 'logout' %}">Logout</a>
+
+</body>
+</html>

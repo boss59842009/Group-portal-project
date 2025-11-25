@@ -19,7 +19,7 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
 class UserLoginView(LoginView):
-    template_name = "auth_system/login.html"
+    template_name = "auth_system/profile.html"
     authentication_form = LoginForm
 
     def get_success_url(self):

@@ -7,4 +7,7 @@
   <component name="PyCharmProfessionalAdvertiser">
     <option name="shown" value="true" />
   </component>
+    <option name="sdkName" value="Python 3.11 (Group-portal-project)" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (Group-portal-project)" project-jdk-type="Python SDK" />
 </project>

@@ -1,0 +1,21 @@
+{% block title %}Всі треди{% endblock %}
+{% block content %}
+<div class="container my-3">
+    <div class="row align-items-center">
+        <div class="col-md-4 text-start">
+            <a type="button" class="btn btn-success" href="{% url 'thread-create' %}">Створити тред</a>
+        </div>
+    </div>
+</div>
+    {% for thread in threads %}
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card border-3 border-success">
+      <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'thread-detail' thread.pk %}">{{ thread.name }}</a></h5>
+        <p class="card-text">{{ thread.description }}</p>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}

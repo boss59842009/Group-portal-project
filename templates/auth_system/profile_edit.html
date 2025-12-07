@@ -1,20 +1,102 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Profile</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h2>Edit Profile</h2>
+{% block content %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-</form>
+<style>
+    .edit-card {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 8px 26px rgba(0,0,0,0.08);
+    }
+    .avatar-preview {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #f1f1f1;
+    }
+    .btn-save {
+        background: #2563eb;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 10px 20px;
+    }
+    .btn-cancel {
+        color: #6b7280;
+        font-weight: 500;
+        padding: 10px 20px;
+    }
+</style>
 
-<a href="{% url 'profile' %}">Back</a>
+<div class="container py-5">
+    <div class="edit-card">
 
-</body>
-</html>
+        <h2 class="fw-bold mb-3">Редагувати профіль</h2>
+
+        <div class="d-flex align-items-center gap-4 mb-3">
+            {% if user.avatar %}
+                <img id="avatarPreview" src="{{ user.avatar.url }}" class="avatar-preview">
+            {% else %}
+                <img id="avatarPreview"
+                     src="https://ui-avatars.com/api/?name={{ user.username }}&background=e5e7eb&color=111827"
+                     class="avatar-preview">
+            {% endif %}
+
+            <div>
+                <label class="form-label fw-semibold">Оновити аватар</label>
+                {{ form.avatar }}
+            </div>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Email</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Дата народження</label>
+                    {{ form.date_of_birth }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Телефон</label>
+                    {{ form.phone }}
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Про себе</label>
+                    {{ form.bio }}
+                </div>
+
+            </div>
+
+            <div class="mt-4 d-flex gap-3">
+                <button type="submit" class="btn btn-save">Зберегти</button>
+                <a class="btn btn-cancel" href="{% url 'profile' %}">
+                    Скасувати
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+document.getElementById("id_avatar").addEventListener("change", function(event){
+    const file = event.target.files[0];
+    if (!file) return;
+    document.getElementById("avatarPreview").src = URL.createObjectURL(file);
+});
+</script>
+
+{% endblock %}

@@ -28,7 +28,7 @@ class UserLoginView(LoginView):
         return reverse_lazy("profile")
 
 class UserLogoutView(LogoutView):
-    next_page = reverse_lazy("login")
+    next_page = reverse_lazy('login')
 
 class UsersListView(LoginRequiredMixin,  ListView):
     model = CustomUser

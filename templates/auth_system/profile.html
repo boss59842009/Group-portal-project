@@ -48,7 +48,6 @@
 <div class="container py-5">
     <div class="profile-card">
 
-        <!-- Верх -->
         <div class="d-flex align-items-center gap-4 mb-4">
             {% if user.avatar %}
                 <img class="profile-avatar" src="{{ user.avatar.url }}" alt="Аватар">
@@ -59,7 +58,13 @@
 
             <div>
                 <h2 class="fw-bold mb-1">{{ user.username }}</h2>
-                <div class="text-secondary">{{ user.role }}</div>
+                <div class="text-secondary">
+                    {% for group in user.groups.all %}
+                        {{ group.name }}
+                    {% empty %}
+                        user
+                    {% endfor %}
+                </div>
 
                 <a href="{% url 'profile_edit' %}" class="btn btn-edit mt-3">
                     ✏️ Редагувати профіль
@@ -69,7 +74,6 @@
 
         <hr>
 
-        <!-- Інфо -->
         <div class="row g-3 mt-3">
             <div class="col-md-6">
                 <div class="info-box">
@@ -107,12 +111,17 @@
             <div class="col-md-6">
                 <div class="info-box">
                     <div class="section-title">Роль</div>
-                    <div class="info-value">{{ user.role }}</div>
+                    <div class="info-value">
+                        {% for group in user.groups.all %}
+                            {{ group.name }}
+                        {% empty %}
+                            user
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Біо -->
         <div class="mt-4">
             <div class="section-title">Про себе</div>
             <div class="info-box">

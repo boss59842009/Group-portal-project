@@ -12,25 +12,27 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% for field in form %}
-                            <div class="mb-3">
-                                {{ field.label_tag }}
-                                {% if field.name == 'avatar' %}
-                                    <div class="mb-2">
-                                        <img id="avatarPreview"
-                                             src="{% if field.value %}{{ field.value.url }}{% endif %}"
-                                             alt="Avatar Preview"
-                                             class="img-thumbnail mb-2"
-                                             style="max-width: 150px; display: {% if field.value %}block{% else %}none{% endif %};">
-                                    </div>
-                                {% endif %}
-                                {{ field }}
-                                {% if field.help_text %}
-                                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                                {% endif %}
-                                {% for error in field.errors %}
-                                    <div class="text-danger">{{ error }}</div>
-                                {% endfor %}
-                            </div>
+                            {% if field.name != 'group' and field.name != 'role' %}
+                                <div class="mb-3">
+                                    {{ field.label_tag }}
+                                    {% if field.name == 'avatar' %}
+                                        <div class="mb-2">
+                                            <img id="avatarPreview"
+                                                src="{% if field.value %}{{ field.value.url }}{% endif %}"
+                                                alt="Avatar Preview"
+                                                class="img-thumbnail mb-2"
+                                                style="max-width: 150px; display: {% if field.value %}block{% else %}none{% endif %};">
+                                        </div>
+                                    {% endif %}
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <div class="text-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         {% endfor %}
                         <button type="submit" class="btn btn-primary w-100 rounded-pill">Зареєструватися</button>
                     </form>

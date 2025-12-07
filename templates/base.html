@@ -43,6 +43,11 @@
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
+                {% if user.is_authenticated and user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin-users-list' %}">Увійти як адмін</a>
+                    </li>
+                {% endif %}
             </ul>
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Пошук" aria-label="Search">

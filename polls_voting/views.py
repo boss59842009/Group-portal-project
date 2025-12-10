@@ -6,25 +6,31 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Survey, Question, Choice, SurveyResult, Answer
 from .models import Voting, VotingOption, Vote
 
+from polls_voting import forms
+
 class PollingListView(ListView):
     model = Survey
-    template_name = "surveys/survey_list.html"
+    template_name = "polls_voting/survey_list.html"
+
+    context_object_name = "polls_voting"
+
+
 
 class SurveyDetailView(LoginRequiredMixin, DetailView):
     model = Survey
-    template_name = "surveys/survey_detail.html"
+    template_name = "polls_voting/survey_detail.html"
 
 class SurveyCreateView(LoginRequiredMixin, CreateView):
     model = Survey
-    template_name = "surveys/survey_create.html"
+    template_name = "polls_voting/survey_create.html"
 
 class SurveyUpdateView(LoginRequiredMixin, UpdateView):
     model = Survey
-    template_name = "surveys/survey_update.html"
+    template_name = "polls_voting/survey_update.html"
 
 class SurveyDeleteView(LoginRequiredMixin, DeleteView):
     model = Survey
-    template_name = "surveys/survey_delete.html"
+    template_name = "polls_voting/survey_delete.html"
 
 ###
 

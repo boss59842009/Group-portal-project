@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Опитування{% endblock%}
+{% block content %}
+<div class="row">
+  {% for polls_voting in polls_voting %}
+  <div class="col-sm-6 mb-3">
+    <div class="card border-3 border-primary">
+      <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'polling-detail' polls_voting.pk%}">{{ polls_voting.title }}</a></h5>
+        <p class="card-text">{{ polls_voting.description }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Інформація{{ polls_voting.title }}{% endblock%}
+{% block content %}
+<div class="card mb-3">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><b>{{ polls_voting.title }}</b></li>
+    <li class="list-group-item">{{ polls_voting.description }}</li>
+    {% if polls_voting.due_date %}
+      <li class="list-group-item text-muted">Дедлайн: {{ polls_voting.due_date|date:"d M Y" }}</li>
+    {% endif %}
+    <li class="list-group-item text-muted">Створено: {{ polls_voting.created_at|date:"d M Y" }}</li>
+  </ul>
+</div>
+{% endblock %}

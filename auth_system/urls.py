@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import RegisterView, UserLoginView, UserLogoutView, ProfileView, ProfileEditView, UsersListView, UserListView, UserRoleUpdateView
 
 urlpatterns = [
@@ -11,3 +12,4 @@ urlpatterns = [
     path("admin/users/", UserListView.as_view(), name="admin-users-list"),
     path("admin/users/<int:pk>/edit/", UserRoleUpdateView.as_view(), name="admin-user-edit"),
 ]
+

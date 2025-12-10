@@ -40,6 +40,7 @@ class UsersListView(LoginRequiredMixin,  ListView):
 class ProfileView(LoginRequiredMixin, DetailView):
     model = CustomUser
     template_name = ("auth_system/profile.html")
+    context_object_name = 'user'
 
     def get_object(self):
         return self.request.user
@@ -49,6 +50,10 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
     form_class = ProfileUpdateForm
     template_name = "auth_system/profile_edit.html"
     success_url = reverse_lazy("profile")
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
 
     def get_object(self):
         return self.request.user

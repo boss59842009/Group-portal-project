@@ -43,14 +43,33 @@
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
+                {% if user.is_authenticated and user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin-users-list' %}">Увійти як адмін</a>
+                    </li>
+                {% endif %}
             </ul>
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Пошук" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Пошук</button>
             </form>
-            <span class="navbar-text ms-3">
-                Username
-            </span>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{% url 'profile' %}">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-danger btn-sm" type="submit">Вийти</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Увійти</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 </nav>
@@ -59,12 +78,15 @@
         <p>Left</p>
     </div>
     <div class="col-8">
-        <p>Center</p>
+         {% block content %}
+         {% endblock %}
     </div>
     <div class="col">
         <p>Right</p>
     </div>
 </div>
+
+
 
 <footer></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

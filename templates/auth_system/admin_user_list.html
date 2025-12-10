@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Керування користувачами{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Список користувачів</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Логін</th>
+                <th>Email</th>
+                <th>Роль</th>
+                <th>Дія</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% for group in user.groups.all %}
+                        {{ group.name }}
+                    {% empty %}
+                        user
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{% url 'admin-user-edit' user.pk %}" class="btn btn-sm btn-primary">Редагувати</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

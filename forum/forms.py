@@ -9,7 +9,7 @@ class ThreadForm(ModelForm):
         widgets = {
             "name": TextInput(attrs={"class": "form-control", "placeholder": "Назва треду", "required": True}),
             "description": Textarea(attrs={"class": "form-control", "placeholder": "Опис треду", "required": True}),
-            "icon": FileInput(attrs={"class": "form-control", "required":False}),
+            "icon": FileInput(attrs={"class": "form-control", "required": False}),
 
         }
 

@@ -1,6 +1,7 @@
+{% extends 'base.html' %}
 {% block title %}Створення треду{% endblock %}
 {% block content %}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Створити</button>

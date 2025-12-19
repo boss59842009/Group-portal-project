@@ -23,32 +23,33 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
     template_name = 'forum/thread_create.html'
     success_url = reverse_lazy("thread-list")
 
-    #def form_valid(self, form):
-        #form.instance.user = self.request.user 
-        #return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 class ThreadDetailView(DetailView):
     model = models.Thread
     context_object_name = "thread"
     template_name = 'forum/thread_detail.html'
 
-    #def get_context_data(self, **kwargs):
-        #context = super().get_context_data(**kwargs)
-        #context["message_form"] = forms.MessageForm()
-        #context["messages"] = self.object.messages_set.order_by("-created_at")
-       #return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["message_form"] = forms.MessageForm()
+        context["messages"] = self.object.messages.order_by("-created_at")
+        print(context["messages"])
+        return context
     
-    #def post(self, request, *args, **kwargs):
-       #message_form = forms.MessageForm(request.POST, request.FILES)
-        #if message_form.is_valid():
-           # message = message_form.save(commit=False)
-            #message.author = request.user
-            #message.thread = self.get_object()
-           # message.save()
-            #return redirect("thread-detail", pk=message.thread.pk)
-        #else:
-            #context = self.get_context_data(form=forms)
-           # return context
+    def post(self, request, *args, **kwargs):
+        message_form = forms.MessageForm(request.POST, request.FILES)
+        if message_form.is_valid():
+            message = message_form.save(commit=False)
+            message.user = request.user
+            message.thread = self.get_object()
+            message.save()
+            return redirect("thread-detail", pk=message.thread.pk)
+        else:
+            context = self.get_context_data(form=forms)
+            return context
 
 
 class ThreadUpdateView(LoginRequiredMixin, UserIsOwnerMixin, UpdateView):

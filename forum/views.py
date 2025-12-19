@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
 from forum import models, forms
 from .models import Thread, Messages
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, View, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from forum.mixins import UserIsOwnerMixin
+from django.core.paginator import Paginator
+from django.contrib.auth import logout
 
 class ThreadListView(ListView):
     model = models.Thread
     context_object_name = "threads"
     template_name = "forum/thread_list.html"
     ordering = ['-created_at']
+    paginate_by = 1
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,3 +65,4 @@ class ThreadDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
     model = models.Thread
     template_name = 'forum/thread_delete.html'
     success_url = reverse_lazy("thread-list")
+

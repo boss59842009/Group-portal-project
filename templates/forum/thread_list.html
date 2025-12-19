@@ -9,7 +9,7 @@
     </div>
 </div>
 {% for thread in threads %}
-<div class="row">
+<div class="row my-3">
   <div class="col-sm-6">
     <div class="card border-3 border-success">
       <div class="card-body">
@@ -20,4 +20,27 @@
   </div>
 </div>
 {% endfor %}
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Попередня</a></li>
+    {% endif %}
+    {% for page in page_obj.paginator.page_range %}
+      {% if page == page_obj.number %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">{{ page }}</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Наступна</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
 {% endblock %}

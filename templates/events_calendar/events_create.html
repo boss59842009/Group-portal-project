@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Створення події{% endblock %}
+{% block content %}
+<form method = "POST">
+  {% csrf_token %}
+  <h3>Створити задачу</h3>
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success btn-lg">Створити</button>
+  <a href="{% url 'events-list' %}" type="button" class="btn btn-danger btn-lg">Відмінити</a>
+</form>
+{% endblock %}

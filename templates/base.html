@@ -24,7 +24,7 @@
                     <a class="nav-link active" aria-current="page" href="#">Щоденник</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Події</a>
+                    <a class="nav-link active" aria-current="page" href="{% url "events-list" %}">Події</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link</a>
@@ -56,13 +56,11 @@
 </nav>
 <div class="row">
     <div class="col">
-        <p>Left</p>
     </div>
-    <div class="col-8">
-        <p>Center</p>
+    <div class="col-6">
+        {% block content %}{% endblock %}
     </div>
     <div class="col">
-        <p>Right</p>
     </div>
 </div>
 

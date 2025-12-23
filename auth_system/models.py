@@ -20,3 +20,6 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def can_manage_advertisements(self):
+        return self.role in ['admin', 'moderator']

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Видалення{% endblock %}
+{% block content %}
+<form method = "POST">
+  {% csrf_token %}
+  <h2>Видалити задачу "{{ event.title }}"?</h2>
+  <button type="submit" class="btn btn-danger btn-lg">ТАК</button>
+  <a href="{% url 'events-list' %}" type="button" class="btn btn-success btn-lg">НІ</a>
+</form>
+{% endblock %}

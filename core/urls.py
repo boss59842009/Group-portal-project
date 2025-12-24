@@ -24,6 +24,7 @@ urlpatterns = [
     path('auth_system/', include("auth_system.urls")),
     path('', include('advertisements.urls')),
     path('', include('events_calendar.urls')),
+    path('', include('forum.urls'))
 ]
 
 if settings.DEBUG:

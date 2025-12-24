@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Тред{% endblock %}
+{% block content %}
+<div class="container text-start my-3">
+    <a type="button" class="btn btn-primary" href="{% url 'thread-list' %}">До всіх тредів</a>
+    <a type="button" class="btn btn-warning" href="{% url 'thread-update' thread.pk %}">Редагувати</a>
+    <a type="button" class="btn btn-danger" href="{% url 'thread-delete' thread.pk %}">Видалити</a>
+</div>
+<div class="card mb-3">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><b>{{ thread.name }}</b></li>
+        <li class="list-group-item">{{ thread.description }}</li>
+        <li class="list-group-item">{{ thread.created_at|date:"d M Y" }}</li>
+        {% if thread.icon %}
+          <li class="list-group-item"><img src="{{ thread.icon.url }}" style="width: 65%"></li>
+        {% endif %}
+
+    </ul>
+</div>
+<div class="container text-start my-3">
+    <h3>Додати коментар</h3>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ message_form.as_p }}
+        <button type="submit" class="btn btn-success">Коментувати</button>
+    </form>
+</div>
+{% if messages %}
+<h4>Коментарі</h4>
+<div class = mt-5>
+    {% for message in messages %}
+    <div class="card">
+  <div class="card-header">
+    <h5>{{ message.user.username }}</h5>
+    <p>{{ message.created_at|date:"d M Y" }}</p>
+  </div>
+  <div class="card-body">
+    <figure>
+      <blockquote class="blockquote">
+        {{ message.text }}
+        <div class="d-flex justify-content-between align-items-center mb-1">
+        </div>
+      </blockquote>
+    </figure>
+  </div>
+</div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

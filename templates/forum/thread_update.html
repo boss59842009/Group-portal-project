@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Оновлення треду{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+    <a href="{% url 'thread-list' %}" class="btn btn-secondary">Скасувати</a>
+</form>
+{% endblock %}

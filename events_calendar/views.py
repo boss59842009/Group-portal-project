@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from events_calendar import models, forms
+from django.core.paginator import PageNotAnInteger
 
 class EventsListView(ListView):
     model = models.Event
     context_object_name = 'events'
     template_name = 'events_calendar/events_list.html'
+    paginate_by = 3
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)

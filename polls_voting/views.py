@@ -3,15 +3,14 @@ from django.views.generic import  ListView, DetailView, CreateView, UpdateView, 
 
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Survey, Question, Choice, SurveyResult, Answer
+from .models import Survey, Question, SurveyResult
 from .models import Voting, VotingOption, Vote
 
 from polls_voting import forms
 
-class PollingListView(ListView):
+class SurveyListView(ListView):
     model = Survey
     template_name = "polls_voting/survey_list.html"
-
     context_object_name = "polls_voting"
 
 
@@ -19,6 +18,8 @@ class PollingListView(ListView):
 class SurveyDetailView(LoginRequiredMixin, DetailView):
     model = Survey
     template_name = "polls_voting/survey_detail.html"
+    context_object_name = "polls_voting"
+
 
 class SurveyCreateView(LoginRequiredMixin, CreateView):
     model = Survey

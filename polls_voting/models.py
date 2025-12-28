@@ -20,53 +20,46 @@ class Survey(models.Model):
 
 
 class Question(models.Model):
-    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name="questions", verbose_name="Питання")
-    text = models.CharField(max_length=500)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name="questions", verbose_name="Опитування")
+    question = models.CharField(max_length=500, verbose_name="Питання")
+    answer = models.CharField(max_length=50, verbose_name="Правильна відповідь")
+    answer1 = models.CharField(max_length=50, verbose_name="не правильна відповідь 1")
+    answer2 = models.CharField(max_length=50, verbose_name="не правильна відповідь 2")
+    answer3 = models.CharField(max_length=50, verbose_name="не правильна відповідь 3")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.text
+        return f"{self.question} - {self.survey.title}"
 
     class Meta:
         verbose_name = 'Питання'
         verbose_name_plural = 'Питання'
-
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="choices", verbose_name="Вибір")
-    text = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.text
-
-    class Meta:
-        verbose_name = 'Вибір'
-        verbose_name_plural = 'Вибори'
+        ordering = ['-created_at']
 
 
 class SurveyResult(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE, related_name="users", verbose_name="Користувач")
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
-    submitted_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ("user", "survey")
 
     def __str__(self):
-        return f"{self.user} - {self.survey}"
+        return f"{self.user.username} - {self.survey.title}"
 
 
 class Answer(models.Model):
-    result = models.ForeignKey(SurveyResult, on_delete=models.CASCADE, related_name="answers")
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="answers",
-                               verbose_name="Автор")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answers")
+    answer = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    survey_result = models.ForeignKey(SurveyResult, on_delete=models.CASCADE, related_name="surveys")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    class Meta:
-        verbose_name = 'Відповідь'
-        verbose_name_plural = 'Відповіді'
+    def __str__(self):
+        return f"{self.question} - {self.answer}"
 
-###
 
 class Voting(models.Model):
     title = models.CharField(max_length=255)

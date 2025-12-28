@@ -2,11 +2,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("polling/", views.PollingListView.as_view(), name="polling-list"),
-    path("<int:pk>/", views.SurveyDetailView.as_view(), name="polling-detail"),
-    path("<int:pk>/", views.SurveyCreateView.as_view(), name="polling-create"),
-    path("<int:pk>/", views.SurveyUpdateView.as_view(), name="polling-update"),
-    path("<int:pk>/", views.SurveyDeleteView.as_view(), name="polling-delete"),
+    path("polling/", views.SurveyListView.as_view(), name="polling-list"),
+    path("polling/<int:pk>/", views.SurveyDetailView.as_view(), name="polling-detail"),
+    path("polling/create/", views.SurveyCreateView.as_view(), name="polling-create"),
+    path("polling/update/<int:pk>/", views.SurveyUpdateView.as_view(), name="polling-update"),
+    path("polling/delete/<int:pk>/", views.SurveyDeleteView.as_view(), name="polling-delete"),
 
     ###
 

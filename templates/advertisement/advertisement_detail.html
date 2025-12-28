@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}{{ advertisement.title }}{% endblock %}
+
+{% block content %}
+
+<style>
+    .detail-card {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 32px;
+        border-radius: 18px;
+        box-shadow: 0 8px 26px rgba(0,0,0,0.08);
+    }
+
+    .detail-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+    .detail-meta {
+        font-size: 14px;
+        color: #6b7280;
+        margin-top: 6px;
+    }
+
+    .detail-content {
+        font-size: 16px;
+        color: #374151;
+        margin-top: 20px;
+        line-height: 1.6;
+    }
+
+    .btn-outline-custom {
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        padding: 8px 14px;
+        font-size: 14px;
+        color: #374151;
+    }
+
+    .btn-danger-custom {
+        background: #dc2626;
+        color: white;
+        border-radius: 10px;
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+
+    .media-wrapper {
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .media-wrapper img,
+    .media-wrapper video {
+        max-width: 50%;
+        max-height: 280px;
+        width: auto;
+        height: auto;
+        border-radius: 14px;
+        object-fit: contain;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="detail-card">
+
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <div class="detail-title">{{ advertisement.title }}</div>
+                <div class="detail-meta">
+                    {{ advertisement.created_at|date:"d.m.Y" }}
+                    · {{ advertisement.author.username }}
+                </div>
+            </div>
+
+            {% if user.is_authenticated and user.can_manage_advertisements %}
+                <div class="d-flex gap-2">
+                    <a href="{% url 'advertisements:edit' advertisement.pk %}"
+                       class="btn btn-outline-custom">
+                        ✏️
+                    </a>
+                    <a href="{% url 'advertisements:delete' advertisement.pk %}"
+                       class="btn btn-danger-custom">
+                        🗑
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if advertisement.media %}
+            {% with advertisement.media.url|lower as media_url %}
+                <div class="mt-4">
+
+                    {% if ".jpg" in media_url or ".jpeg" in media_url or ".png" in media_url or ".webp" in media_url %}
+                        <img src="{{ advertisement.media.url }}"
+                             class="img-fluid rounded">
+
+                    {% elif ".mp4" in media_url or ".webm" in media_url %}
+                        <video controls class="w-100 rounded">
+                            <source src="{{ advertisement.media.url }}">
+                        </video>
+
+                    {% else %}
+                        <a href="{{ advertisement.media.url }}"
+                           class="btn btn-outline-custom"
+                           target="_blank">
+                            📎 Завантажити файл
+                        </a>
+                    {% endif %}
+
+                </div>
+            {% endwith %}
+        {% endif %}
+
+        <div class="detail-content">
+            {{ advertisement.content|linebreaks }}
+        </div>
+
+        <div class="mt-4 d-flex justify-content-between align-items-center">
+            <a href="{% url 'advertisements:list' %}"
+               class="btn btn-outline-custom">
+                ← Назад до оголошень
+            </a>
+
+            {% if advertisement.expiration_date %}
+                <small class="text-secondary">
+                    Діє до {{ advertisement.expiration_date|date:"d.m.Y" }}
+                </small>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

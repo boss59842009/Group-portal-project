@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Редагування ролі{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Редагування ролі користувача: {{ object.username }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.group.label_tag }}
+            {{ form.group }}
+        </div>
+        <button type="submit" class="btn btn-success">Зберегти</button>
+        <a href="{% url 'admin-users-list' %}" class="btn btn-secondary ms-2">Назад</a>
+    </form>
+</div>
+{% endblock %}

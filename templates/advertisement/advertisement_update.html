@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Редагувати оголошення{% endblock %}
+
+{% block content %}
+<style>
+    .form-card {
+        max-width: 700px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 8px 26px rgba(0,0,0,0.08);
+    }
+
+    .form-card h2 {
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+    .form-card label {
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .btn-primary-custom {
+        background: #2563eb;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-weight: 600;
+    }
+
+    .btn-outline-custom {
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .media-preview img,
+    .media-preview video {
+        max-width: 60%;
+        max-height: 240px;
+        border-radius: 14px;
+        display: block;
+        margin: 10px auto;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="form-card">
+        <h2>✏️ Редагувати оголошення</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="mb-3">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+                {{ form.title.errors }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.content.label_tag }}
+                {{ form.content }}
+                {{ form.content.errors }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.media.label_tag }}
+                {{ form.media }}
+                {{ form.media.errors }}
+
+                {% if object.media %}
+                    <div class="media-preview">
+                        <small class="text-secondary">Поточне медіа:</small>
+
+                        {% with object.media.url|lower as media_url %}
+                            {% if ".jpg" in media_url or ".png" in media_url or ".jpeg" in media_url or ".webp" in media_url %}
+                                <img src="{{ object.media.url }}">
+                            {% elif ".mp4" in media_url or ".webm" in media_url %}
+                                <video controls>
+                                    <source src="{{ object.media.url }}">
+                                </video>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                {{ form.expiration_date.label_tag }}
+                {{ form.expiration_date }}
+            </div>
+
+            <div class="form-check mb-4">
+                {{ form.is_active }}
+                {{ form.is_active.label_tag }}
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary-custom">
+                    💾 Зберегти
+                </button>
+                <a href="{% url 'advertisements:list' %}" class="btn btn-outline-custom">
+                    Скасувати
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

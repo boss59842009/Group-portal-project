@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Створити оголошення{% endblock %}
+
+{% block content %}
+<style>
+.create-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 26px rgba(0,0,0,0.08);
+}
+</style>
+
+<div class="container py-5">
+    <div class="create-card">
+        <h2 class="fw-bold mb-4">➕ Нове оголошення</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="mb-3">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.content.label_tag }}
+                {{ form.content }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.media.label_tag }}
+                {{ form.media }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.expiration_date.label_tag }}
+                {{ form.expiration_date }}
+            </div>
+
+            <div class="form-check mb-4">
+                {{ form.is_active }}
+                {{ form.is_active.label_tag }}
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary-custom">
+                    💾 Зберегти
+                </button>
+                <a href="{% url 'advertisements:list' %}" class="btn btn-outline-secondary">
+                    Скасувати
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

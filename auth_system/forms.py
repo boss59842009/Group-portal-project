@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import Group
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
 
@@ -40,3 +41,24 @@ class ProfileUpdateForm(forms.ModelForm):
             "bio": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
             "phone": forms.TextInput(attrs={"class": "form-control"})
         }
+
+class UserRoleForm(forms.ModelForm):
+    group = forms.ModelChoiceField(
+        queryset=Group.objects.all(),
+        required=True,
+        label="Роль",
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = []
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        user.groups.clear()
+        user.groups.add(self.cleaned_data["group"])
+        if commit:
+            user.save()
+        return user
